@@ -45,11 +45,13 @@ import "./ui/ui.js";
 import { AppConfig } from "./configs/types.js";
 import { config as restaurantConfig } from "./configs/restaurant.js";
 import { config as contactsConfig } from "./configs/contacts.js";
+import { config as githubIdeasConfig } from "./configs/github-ideas.js";
 import { styleMap } from "lit/directives/style-map.js";
 
 const configs: Record<string, AppConfig> = {
   restaurant: restaurantConfig,
   contacts: contactsConfig,
+  "github-ideas": githubIdeasConfig,
 };
 
 @customElement("a2ui-shell")
@@ -67,7 +69,7 @@ export class A2UILayoutEditor extends SignalWatcher(LitElement) {
   accessor #lastMessages: v0_8.Types.ServerToClientMessage[] = [];
 
   @state()
-  accessor config: AppConfig = configs.restaurant;
+  accessor config: AppConfig = configs["github-ideas"];
 
   @state()
   accessor #loadingTextIndex = 0;
@@ -285,8 +287,8 @@ export class A2UILayoutEditor extends SignalWatcher(LitElement) {
 
     // Load config from URL
     const urlParams = new URLSearchParams(window.location.search);
-    const appKey = urlParams.get("app") || "restaurant";
-    this.config = configs[appKey] || configs.restaurant;
+    const appKey = urlParams.get("app") || "github-ideas";
+    this.config = configs[appKey] || configs["github-ideas"];
 
     // Apply the theme directly, which will use the Lit context.
     if (this.config.theme) {
@@ -366,7 +368,7 @@ export class A2UILayoutEditor extends SignalWatcher(LitElement) {
       <div>
         <input
           required
-          value="${this.config.placeholder}"
+          placeholder="${this.config.placeholder}"
           autocomplete="off"
           id="body"
           name="body"
